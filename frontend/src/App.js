@@ -1,12 +1,15 @@
 import React from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import { HomeScreen } from './screens/HomeScreen';
-import { ProductScreen } from './screens/ProductScreen';
+import { Route, Routes } from 'react-router-dom';
+import  HomeScreen  from './screens/HomeScreen';
+import  ProductScreen  from './screens/ProductScreen';
 
 
 function App() {
+
+  // const params = { params: { id: '1' } };
+  // match={params} 
+
   return (
-    <BrowserRouter>
     <div className="grid-container">
       <header className="row">
         <div>
@@ -19,13 +22,12 @@ function App() {
       </header>
       <main>
         <Routes>
-        <Route path="/product/:id" component={ProductScreen}></Route>  
-        <Route path="/" component={HomeScreen} exact></Route>
+          <Route path="/" element={<HomeScreen />} exact />
+          <Route path="/product/:id" element={<ProductScreen />} />
         </Routes>
       </main>
       <footer className="row center">All rights reserved</footer>
     </div>
-    </BrowserRouter>
   );
 }
 

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Product } from '../compontents/Product';
+import  Product  from '../compontents/Product';
 import data from '../data';
 
-export const HomeScreen = () => {
+export default function HomeScreen(){
   return (
     <div>
     <div className="row center">
