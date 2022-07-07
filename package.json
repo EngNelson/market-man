@@ -18,9 +18,12 @@
   },
   "homepage": "https://github.com/EngNelson/market-man#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.4.3"
   },
   "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-plugin-react": "^7.30.1",
     "nodemon": "^2.0.18"
   }
 }

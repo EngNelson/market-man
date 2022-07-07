@@ -1,16 +1,35 @@
-import React from 'react';
+// import {useSelector} from 'react-dom';
+import React, { useEffect, useState, useSelector} from 'react';
 import  Rating  from '../compontents/Rating';
-import { useParams } from 'react-router';
-import data from '../data';
+// import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import LoadingBox from '../compontents/LoadingBox';
+import MessageBox from '../compontents/MessageBox';
+import { detailsProduct } from '../actions/productActions';
+import { useDispatch } from 'react-redux';
 
 export default function ProductScreen(props){
-  const {id} =  useParams();
-  const product = data.products.find((x) => x._id === id);
-  if(!product){
-     return <div>Product Not Found</div>;
-  }
+  const dispatch = useDispatch();
+  const productId = props.match.params.id;
+  const [qty, setQty] = useState(1);
+  const productDetails = useSelector(state => state.productDetails);
+  const {loading, error,product} = productDetails;
+  
+ useEffect(() => {
+    dispatch(detailsProduct(productId));
+ }, [dispatch,productId]);
+
+ const addToCartHandler = () => { 
+  props.history.push(`/cart/${productId}?qty=${qty}`);
+ };
   return (
+    <div>
+    {loading ? ( 
+    <LoadingBox></LoadingBox>
+ ) : error ? (
+    <MessageBox variant="danger">{error}</MessageBox>
+  ) : (
+ 
     <div>
       <Link to="/">Back to results</Link>
       <div className='row top'>
@@ -54,13 +73,40 @@ export default function ProductScreen(props){
                   </div>
                 </div>
               </li>
-              <li>
-                <button className='primary block'>Add to Cart</button>
+              {product.countInStock > 0  && (
+                <>
+                <li>
+                  <div className="row">
+                    <div>Qty</div>
+                    <div>
+                      <select value={qty} onChange={e => setQty(e.target.value)}>
+                        {
+                          [...Array(product.countInStock).keys()].map(x => (
+                            <option key={x+1} value={x+1}>
+                              {x + 1}
+                            </option>
+                          ))
+                        }
+                      </select>
+                    </div>
+                  </div>
+                </li>
+                   <li>
+                <button 
+                onClick={addToCartHandler} 
+                className='primary block'>Add to Cart</button>
               </li>
+                </>
+              )}
             </ul>
         </div>
       </div>
     </div>
     </div>
-  )
+  
+ )}
+</div>   
+  
+  );
 }
+
